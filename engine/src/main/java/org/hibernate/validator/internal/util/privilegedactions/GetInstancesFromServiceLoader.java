@@ -22,8 +22,10 @@ import java.util.ServiceLoader;
  */
 public class GetInstancesFromServiceLoader<T> implements PrivilegedAction<List<T>> {
 
+	//加载类的 classloader
 	private final ClassLoader primaryClassLoader;
 
+	//要加载的class
 	private final Class<T> clazz;
 
 	private static final Log LOG = LoggerFactory.make( MethodHandles.lookup() );
@@ -41,6 +43,7 @@ public class GetInstancesFromServiceLoader<T> implements PrivilegedAction<List<T
 	public List<T> run() {
 		// Option #1: try the primary class loader first (either the thread context class loader or the external class
 		// loader that has been defined)
+		// 加载类的实例
 		List<T> instances = loadInstances( primaryClassLoader );
 
 		// Option #2: if we cannot find any service files within the primary class loader, use the current class loader
@@ -52,6 +55,7 @@ public class GetInstancesFromServiceLoader<T> implements PrivilegedAction<List<T
 	}
 
 	private List<T> loadInstances(ClassLoader classloader) {
+		//加载spi
 		ServiceLoader<T> loader = ServiceLoader.load( clazz, classloader );
 		Iterator<T> iterator = loader.iterator();
 		List<T> instances = new ArrayList<T>();

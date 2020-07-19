@@ -24,6 +24,7 @@ import org.hibernate.validator.internal.util.stereotypes.Immutable;
  *
  * @author Hardy Ferentschik
  */
+//引导配置默认实现
 class BootstrapConfigurationImpl implements BootstrapConfiguration {
 
 	/**

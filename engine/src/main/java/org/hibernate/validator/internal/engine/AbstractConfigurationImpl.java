@@ -111,6 +111,7 @@ public abstract class AbstractConfigurationImpl<T extends BaseHibernateValidator
 	private final ValidationBootstrapParameters validationBootstrapParameters;
 	private boolean ignoreXmlConfiguration = false;
 	private final Set<InputStream> configurationStreams = newHashSet();
+	//引导配置的实现，默认BootstrapConfigurationImpl
 	private BootstrapConfiguration bootstrapConfiguration;
 
 	private final Map<ValueExtractorDescriptor.Key, ValueExtractorDescriptor> valueExtractorDescriptors = new HashMap<>();
@@ -152,6 +153,7 @@ public abstract class AbstractConfigurationImpl<T extends BaseHibernateValidator
 	private AbstractConfigurationImpl() {
 		this.validationBootstrapParameters = new ValidationBootstrapParameters();
 
+		//这里设置了默认constraint validator factory
 		this.defaultConstraintValidatorFactory = new ConstraintValidatorFactoryImpl();
 		this.defaultParameterNameProvider = new DefaultParameterNameProvider();
 		this.defaultClockProvider = DefaultClockProvider.INSTANCE;
@@ -415,9 +417,12 @@ public abstract class AbstractConfigurationImpl<T extends BaseHibernateValidator
 		return thisAsT();
 	}
 
+	//构建validatorFactory
 	@Override
 	public final ValidatorFactory buildValidatorFactory() {
+		//从spi中获取
 		loadValueExtractorsFromServiceLoader();
+		//解析validation xml文件
 		parseValidationXml();
 
 		for ( ValueExtractorDescriptor valueExtractorDescriptor : valueExtractorDescriptors.values() ) {
@@ -427,6 +432,7 @@ public abstract class AbstractConfigurationImpl<T extends BaseHibernateValidator
 		ValidatorFactory factory = null;
 		try {
 			if ( isSpecificProvider() ) {
+				//HibernateValidator的buildValidatorFactory
 				factory = validationBootstrapParameters.getProvider().buildValidatorFactory( this );
 			}
 			else {
@@ -443,6 +449,8 @@ public abstract class AbstractConfigurationImpl<T extends BaseHibernateValidator
 					}
 				}
 				else {
+					// providerResolver为DefaultValidationProviderResolver
+					//Provider还是HibernateValidator
 					List<ValidationProvider<?>> providers = providerResolver.getValidationProviders();
 					assert providers.size() != 0; // I run therefore I am
 					factory = providers.get( 0 ).buildValidatorFactory( this );
@@ -505,6 +513,7 @@ public abstract class AbstractConfigurationImpl<T extends BaseHibernateValidator
 	@Override
 	public BootstrapConfiguration getBootstrapConfiguration() {
 		if ( bootstrapConfiguration == null ) {
+			//xml 解析器
 			bootstrapConfiguration = new ValidationXmlParser( externalClassLoader ).parseValidationXml();
 		}
 		return bootstrapConfiguration;
@@ -661,8 +670,10 @@ public abstract class AbstractConfigurationImpl<T extends BaseHibernateValidator
 		}
 		else {
 			ValidationBootstrapParameters xmlParameters = new ValidationBootstrapParameters(
+					//获取引导配置
 					getBootstrapConfiguration(), externalClassLoader
 			);
+			//应用xml中的配置
 			applyXmlSettings( xmlParameters );
 		}
 	}
@@ -670,6 +681,7 @@ public abstract class AbstractConfigurationImpl<T extends BaseHibernateValidator
 	@SuppressWarnings("rawtypes")
 	private void loadValueExtractorsFromServiceLoader() {
 		List<ValueExtractor> valueExtractors = run( GetInstancesFromServiceLoader.action(
+				//获取classLoader
 				externalClassLoader != null ? externalClassLoader : run( GetClassLoader.fromContext() ),
 				ValueExtractor.class
 		) );
@@ -693,6 +705,7 @@ public abstract class AbstractConfigurationImpl<T extends BaseHibernateValidator
 				validationBootstrapParameters.setTraversableResolver( xmlParameters.getTraversableResolver() );
 			}
 			else {
+				//使用默认的Traversable Resolver
 				validationBootstrapParameters.setTraversableResolver( getDefaultTraversableResolver() );
 			}
 		}

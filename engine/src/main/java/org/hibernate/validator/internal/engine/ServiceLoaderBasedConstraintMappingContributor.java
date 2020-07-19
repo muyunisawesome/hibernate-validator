@@ -53,14 +53,17 @@ public class ServiceLoaderBasedConstraintMappingContributor implements Constrain
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void createConstraintMappings(ConstraintMappingBuilder builder) {
+		//保存，注解类型-对应的校验器列表
 		Map<Class<?>, List<Class<?>>> customValidators = newHashMap();
 
 		// find additional constraint validators via the Java ServiceLoader mechanism
+		// 找额外的约束校验器，通过java的spi机制
 		List<ConstraintValidator> discoveredConstraintValidators = run( GetInstancesFromServiceLoader.action( primaryClassLoader,
 				ConstraintValidator.class ) );
 
 		for ( ConstraintValidator constraintValidator : discoveredConstraintValidators ) {
 			Class<? extends ConstraintValidator> constraintValidatorClass = constraintValidator.getClass();
+			//找到注解
 			Class<?> annotationType = determineAnnotationType( constraintValidatorClass );
 
 			List<Class<?>> validators = customValidators.get( annotationType );

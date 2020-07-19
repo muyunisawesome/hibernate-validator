@@ -69,6 +69,7 @@ public class ValidationXmlParser {
 	public final BootstrapConfiguration parseValidationXml() {
 		InputStream in = getValidationXmlInputStream();
 		if ( in == null ) {
+			//没有xml文件，则用使用默认配置。BootstrapConfigurationImpl
 			return BootstrapConfigurationImpl.getDefaultBootstrapConfiguration();
 		}
 
@@ -117,6 +118,7 @@ public class ValidationXmlParser {
 		}
 	}
 
+	//加载META-INF/validation.xml文件
 	private InputStream getValidationXmlInputStream() {
 		LOG.debugf( "Trying to load %s for XML based Validator configuration.", VALIDATION_XML_FILE );
 		InputStream inputStream = ResourceLoaderHelper.getResettableInputStreamForPath( VALIDATION_XML_FILE, externalClassLoader );

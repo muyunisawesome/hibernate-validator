@@ -29,6 +29,7 @@ public class ConfigurationImpl extends AbstractConfigurationImpl<HibernateValida
 	}
 
 	public ConfigurationImpl(ValidationProvider<?> provider) {
+		//父类抽象配置实现
 		super( provider );
 	}
 

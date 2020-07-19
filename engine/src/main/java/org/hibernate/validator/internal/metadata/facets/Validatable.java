@@ -13,6 +13,7 @@ package org.hibernate.validator.internal.metadata.facets;
  *
  * @author Gunnar Morling
  */
+//表示可校验的类型， javaBean，method，returnType
 public interface Validatable {
 
 	/**

@@ -54,6 +54,7 @@ public class TraversableResolvers {
 		// check whether we have Persistence on the classpath
 		Class<?> persistenceClass;
 		try {
+			//jakarta.persistence.Persistence
 			persistenceClass = run( LoadClass.action( PERSISTENCE_CLASS_NAME, TraversableResolvers.class.getClassLoader() ) );
 		}
 		catch (ValidationException e) {
@@ -65,6 +66,7 @@ public class TraversableResolvers {
 		}
 
 		// check whether Persistence contains getPersistenceUtil
+		// 检查是否有getPersistenceUtil方法
 		Method persistenceUtilGetter = run( GetMethod.action( persistenceClass, PERSISTENCE_UTIL_METHOD ) );
 		if ( persistenceUtilGetter == null ) {
 			LOG.debugf(
@@ -87,6 +89,7 @@ public class TraversableResolvers {
 					PERSISTENCE_CLASS_NAME,
 					PERSISTENCE_UTIL_METHOD
 			);
+			//到这里？？
 			return getTraverseAllTraversableResolver();
 		}
 
@@ -103,6 +106,7 @@ public class TraversableResolvers {
 			LOG.debugf(
 					"Instantiated JPA aware TraversableResolver of type %s.", JPA_AWARE_TRAVERSABLE_RESOLVER_CLASS_NAME
 			);
+			//JPATraversableResolver
 			return run( NewInstance.action( jpaAwareResolverClass, "" ) );
 		}
 		catch (ValidationException e) {

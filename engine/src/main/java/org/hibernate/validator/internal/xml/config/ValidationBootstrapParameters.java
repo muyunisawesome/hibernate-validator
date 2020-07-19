@@ -46,6 +46,7 @@ public class ValidationBootstrapParameters {
 	private TraversableResolver traversableResolver;
 	private ParameterNameProvider parameterNameProvider;
 	private ClockProvider clockProvider;
+	//校验提供者HibernateValidator
 	private ValidationProvider<?> provider;
 	private Class<? extends ValidationProvider<?>> providerClass = null;
 	private final Map<String, String> configProperties = new HashMap<>();
@@ -57,6 +58,7 @@ public class ValidationBootstrapParameters {
 	}
 
 	public ValidationBootstrapParameters(BootstrapConfiguration bootstrapConfiguration, ClassLoader externalClassLoader) {
+		//这边暂且都是空的
 		setProviderClass( bootstrapConfiguration.getDefaultProviderClassName(), externalClassLoader );
 		setMessageInterpolator( bootstrapConfiguration.getMessageInterpolatorClassName(), externalClassLoader );
 		setTraversableResolver( bootstrapConfiguration.getTraversableResolverClassName(), externalClassLoader );

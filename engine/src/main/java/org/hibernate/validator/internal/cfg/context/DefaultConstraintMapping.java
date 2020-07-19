@@ -42,6 +42,7 @@ public class DefaultConstraintMapping implements ConstraintMapping {
 	private final AnnotationProcessingOptionsImpl annotationProcessingOptions;
 	private final Set<Class<?>> configuredTypes;
 	private final Set<TypeConstraintMappingContextImpl<?>> typeContexts;
+	//已定义的约束
 	private final Set<Class<?>> definedConstraints;
 	private final Set<ConstraintDefinitionContextImpl<?>> constraintContexts;
 

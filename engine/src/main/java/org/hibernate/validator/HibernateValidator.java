@@ -21,6 +21,7 @@ import org.hibernate.validator.internal.engine.ValidatorFactoryImpl;
  * @author Emmanuel Bernard
  * @author Hardy Ferentschik
  */
+//jakarta.validation.spi.ValidationProvider的SPI
 public class HibernateValidator implements ValidationProvider<HibernateValidatorConfiguration> {
 
 	@Override
@@ -28,11 +29,13 @@ public class HibernateValidator implements ValidationProvider<HibernateValidator
 		return HibernateValidatorConfiguration.class.cast( new ConfigurationImpl( this ) );
 	}
 
+	//State为GenericBootstrapImpl
 	@Override
 	public Configuration<?> createGenericConfiguration(BootstrapState state) {
 		return new ConfigurationImpl( state );
 	}
 
+	//构建validatorFactory
 	@Override
 	public ValidatorFactory buildValidatorFactory(ConfigurationState configurationState) {
 		return new ValidatorFactoryImpl( configurationState );

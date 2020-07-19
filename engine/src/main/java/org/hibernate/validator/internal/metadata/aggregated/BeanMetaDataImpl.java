@@ -189,7 +189,7 @@ public final class BeanMetaDataImpl<T> implements BeanMetaData<T> {
 
 		for ( ConstraintMetaData constraintMetaData : constraintMetaDataSet ) {
 			boolean elementHasConstraints = constraintMetaData.isCascading() || constraintMetaData.isConstrained();
-			hasConstraints |= elementHasConstraints;
+			hasConstraints |= elementHasConstraints; //只要javaBean属性上有约束，就代表javaBean有约束
 
 			if ( constraintMetaData.getKind() == ElementKind.PROPERTY ) {
 				propertyMetaDataSet.add( (PropertyMetaData) constraintMetaData );

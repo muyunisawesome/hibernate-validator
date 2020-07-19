@@ -18,6 +18,7 @@ public final class GetMethod implements PrivilegedAction<Method> {
 	private final Class<?> clazz;
 	private final String methodName;
 
+	//获取方法名
 	public static GetMethod action(Class<?> clazz, String methodName) {
 		return new GetMethod( clazz, methodName );
 	}

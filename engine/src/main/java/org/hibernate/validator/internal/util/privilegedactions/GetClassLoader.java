@@ -40,6 +40,7 @@ public final class GetClassLoader implements PrivilegedAction<ClassLoader> {
 			return clazz.getClassLoader();
 		}
 		else {
+			//使用线程上下文classLoader
 			return Thread.currentThread().getContextClassLoader();
 		}
 	}

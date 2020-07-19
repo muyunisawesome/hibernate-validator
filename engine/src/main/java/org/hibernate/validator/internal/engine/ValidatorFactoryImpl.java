@@ -128,6 +128,7 @@ public class ValidatorFactoryImpl implements HibernateValidatorFactory {
 
 	private final ValidationOrderGenerator validationOrderGenerator;
 
+	//构建校验工厂
 	public ValidatorFactoryImpl(ConfigurationState configurationState) {
 		ClassLoader externalClassLoader = determineExternalClassLoader( configurationState );
 
@@ -194,6 +195,7 @@ public class ValidatorFactoryImpl implements HibernateValidatorFactory {
 				)
 		);
 
+		//注册自定义校验器
 		registerCustomConstraintValidators( constraintMappings, constraintHelper );
 
 		if ( LOG.isDebugEnabled() ) {
@@ -318,6 +320,7 @@ public class ValidatorFactoryImpl implements HibernateValidatorFactory {
 				)
 		);
 
+		//hibernate的validator实现
 		return new ValidatorImpl(
 				constraintValidatorFactory,
 				beanMetaDataManager,
